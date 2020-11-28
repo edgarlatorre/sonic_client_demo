@@ -2,6 +2,7 @@ defmodule DemoWeb.PageLive do
   use DemoWeb, :live_view
 
   alias SonicClient.Modes.Search
+  alias Util
 
   @impl true
   def mount(_params, _session, socket) do
@@ -33,8 +34,7 @@ defmodule DemoWeb.PageLive do
   defp get_beers(conn, term \\ "ipa") do
     {:ok, beers} = Search.query(conn, "beers", "default_bucket", term)
 
-    beers
-    |> Enum.map(fn beer -> string_to_map(beer) end)
+    Enum.map(beers, &string_to_map(&1))
   end
 
   defp suggest_words(_conn, ""), do: []
@@ -44,7 +44,7 @@ defmodule DemoWeb.PageLive do
     words
   end
 
-  defp open_connection() do
+  defp open_connection do
     SonicClient.start(
       Application.fetch_env!(:sonic_client, :host),
       Application.fetch_env!(:sonic_client, :port),
@@ -54,8 +54,11 @@ defmodule DemoWeb.PageLive do
   end
 
   defp string_to_map(line) do
-    with([id, name] = String.split(line, ":")) do
-      %{id: id, name: name}
-    end
+    [id, name, style] =
+      line
+      |> Util.decode()
+      |> String.split(":")
+
+    %{id: id, name: name, style: style}
   end
 end

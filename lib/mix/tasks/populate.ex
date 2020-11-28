@@ -3,6 +3,7 @@ defmodule Mix.Tasks.Populate do
 
   alias SonicClient.Modes.Control
   alias SonicClient.Modes.Ingest
+  alias Util
 
   @shortdoc "Populate beer from csv."
   def run(_) do
@@ -22,8 +23,10 @@ defmodule Mix.Tasks.Populate do
   end
 
   defp save(conn, beer) do
-    index = ~s(#{beer["name"]} #{beer["style"]})
-    Ingest.push(conn, "beers", ~s(#{beer["id"]}:#{beer["name"]}), index)
+    terms = ~s(#{beer["name"]} #{beer["style"]})
+    index = ~s(#{beer["id"]}:#{beer["name"]}:#{beer["style"]})
+
+    Ingest.push(conn, "beers", Util.encode(index), terms)
   end
 
   defp open_connection(mode) do

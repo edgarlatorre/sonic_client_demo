@@ -3,14 +3,14 @@
 </div>
 <div class="mt-10 justify-center">
   <div class="flex flex-col items-center justify-center m-5">
-    <form phx-change="suggest" phx-submit="search">
+    <form phx-change="suggest" phx-submit="search" class="w-96">
       <div class="pt-2 relative mx-auto text-gray-600 w-full">
         <input
           class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none w-full"
           type="text"
           name="q"
           value="<%= @query %>"
-          placeholder="Search for beer"
+          placeholder="Search for name or style"
           list="results"
           autocomplete="off"/>
         <datalist id="results">
@@ -32,13 +32,24 @@
     </form>
   </div>
 
-  <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+  <div class="inline-block min-w-full shadow rounded-lg overflow-hidden mt-4">
     <table class="w-full">
+      <thead>
+        <th class="px-6 py-3 bg-gray-50 text-center font-medium text-gray-500 uppercase tracking-wider">id</th>
+        <th class="px-6 py-3 bg-gray-50 text-center font-medium text-gray-500 uppercase tracking-wider">Name</th>
+        <th class="px-6 py-3 bg-gray-50 text-center font-medium text-gray-500 uppercase tracking-wider">Style</th>
+      </thead>
       <tbody>
         <%= for beer <- @beers do %>
-          <tr class="hover:bg-orange-100">
-            <td class="py-4 px-6 border-b border-gray-200 text-orange-700 text-lg">
+          <tr class="text-center">
+            <td class="py-4 px-6 border-b border-gray-200">
+              <%= beer.id %>
+            </td>
+            <td class="py-4 px-6 border-b border-gray-200">
               <%= beer.name %>
+            </td>
+            <td class="py-4 px-6 border-b border-gray-200">
+              <%= beer.style %>
             </td>
           </tr>
         <% end %>
