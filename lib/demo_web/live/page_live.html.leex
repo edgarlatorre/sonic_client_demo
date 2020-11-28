@@ -1,0 +1,19 @@
+<section class="phx-hero">
+  <h1><%= gettext "Search demo" %></h1>
+
+  <form phx-change="suggest" phx-submit="search">
+    <input type="text" name="q" value="<%= @query %>" placeholder="Live dependency search" list="results" autocomplete="off"/>
+    <datalist id="results">
+      <%= for word <- @suggestions do %>
+        <option value="<%= word %>"><%= word %></option>
+      <% end %>
+    </datalist>
+    <button type="submit" phx-disable-with="Searching...">Search</button>
+  </form>
+
+  <div>
+  <%= for beer <- @beers do %>
+    <p><%= beer%></p>
+  <% end %>
+  </div>
+</section>
