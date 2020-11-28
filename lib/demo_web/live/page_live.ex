@@ -34,6 +34,7 @@ defmodule DemoWeb.PageLive do
     {:ok, beers} = Search.query(conn, "beers", "default_bucket", term)
 
     beers
+    |> Enum.map(fn beer -> string_to_map(beer) end)
   end
 
   defp suggest_words(_conn, ""), do: []
@@ -50,5 +51,11 @@ defmodule DemoWeb.PageLive do
       "search",
       Application.fetch_env!(:sonic_client, :password)
     )
+  end
+
+  defp string_to_map(line) do
+    with([id, name] = String.split(line, ":")) do
+      %{id: id, name: name}
+    end
   end
 end
