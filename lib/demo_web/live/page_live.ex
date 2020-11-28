@@ -51,14 +51,4 @@ defmodule DemoWeb.PageLive do
       Application.fetch_env!(:sonic_client, :password)
     )
   end
-
-  defp format(text) do
-    case String.ends_with?(text, "}") do
-      true ->
-        text
-
-      _ ->
-        ~s(#{text}"})
-    end
-  end
 end
