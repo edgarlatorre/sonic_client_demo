@@ -25,8 +25,9 @@ defmodule Mix.Tasks.Populate do
   defp save(conn, beer) do
     terms = ~s(#{beer["name"]} #{beer["style"]})
     index = ~s(#{beer["id"]}:#{beer["name"]}:#{beer["style"]})
+    bucket = Application.fetch_env!(:sonic_client, :bucket)
 
-    Ingest.push(conn, "beers", Util.encode(index), terms)
+    Ingest.push(conn, "beers", bucket, Util.encode(index), terms, "eng")
   end
 
   defp open_connection(mode) do

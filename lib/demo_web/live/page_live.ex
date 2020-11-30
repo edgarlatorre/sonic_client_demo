@@ -32,7 +32,8 @@ defmodule DemoWeb.PageLive do
   end
 
   defp get_beers(conn, term \\ "ipa") do
-    {:ok, beers} = Search.query(conn, "beers", "default_bucket", term)
+    bucket = Application.fetch_env!(:sonic_client, :bucket)
+    {:ok, beers} = Search.query(conn, "beers", bucket, term)
 
     Enum.map(beers, &string_to_map(&1))
   end
@@ -40,7 +41,8 @@ defmodule DemoWeb.PageLive do
   defp suggest_words(_conn, ""), do: []
 
   defp suggest_words(conn, prefix) do
-    {:ok, words} = Search.suggest(conn, "beers", "default_bucket", prefix)
+    bucket = Application.fetch_env!(:sonic_client, :bucket)
+    {:ok, words} = Search.suggest(conn, "beers", bucket, prefix, locale: "eng", limit: 10)
     words
   end
 

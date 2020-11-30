@@ -45,7 +45,7 @@ defmodule Demo.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:sonic_client, "~> 0.1"}
+      {:sonic_client, "~> 0.2"}
     ]
   end
 
